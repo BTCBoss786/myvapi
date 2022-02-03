@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\SegmentController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::apiResource('/segments', SegmentController::class);
+Route::prefix('/segments')->group(function() {
+    Route::apiResource('/{segment}/sellers', SellerController::class);
+});
+Route::prefix('/sellers')->group(function() {
+    Route::apiResource('/{seller}/offers', OfferController::class);
 });
